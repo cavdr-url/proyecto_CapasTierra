@@ -17,11 +17,7 @@ function App() {
         indicadorLogro="Describe las características de la corteza, manto y núcleo."
       />
 
-      <ActividadItem actividad="Investigar la Corteza Terrestre" />
-
-      <ActividadItem actividad="Analizar el Manto Terrestre" />
-
-      <ActividadItem actividad="Estudiar el Núcleo de la Tierra" />
+      <ActividadItem />
     </>
   );
 }

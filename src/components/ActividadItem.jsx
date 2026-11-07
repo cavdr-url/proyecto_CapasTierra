@@ -1,21 +1,63 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
-function ActividadItem({ actividad }) {
-  const [completada, setCompletada] = useState(false);
+function ActividadItem() {
+  const [actividades, setActividades] = useState([]);
+  const [cargando, setCargando] = useState(true);
+
+  const NOCODB_URL =
+    "https://app.nocodb.com/api/v3/data/pqx60qbgr3kkp2j/m27d22l2k00nhz7/records";
+
+  const API_TOKEN =
+    "nc_pat_Ph7DlnLFYRsRn0bpN47ytXfhMmAHlX6hW3xFviU4";
+
+  useEffect(() => {
+    fetch(NOCODB_URL, {
+      method: "GET",
+      headers: {
+        "xc-token": API_TOKEN,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((datos) => {
+        setActividades(datos.records || []);
+        setCargando(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setCargando(false);
+      });
+  }, []);
+
+  if (cargando) {
+    return <p>Cargando actividades...</p>;
+  }
 
   return (
-    <div className="actividad">
-      <h3>{actividad}</h3>
+    <>
+      {actividades.map((item, index) => {
+        const campos = item.fields || item;
 
-      <p>
-        Estado:
-        {completada ? " ✅ Completada" : " ⏳ Pendiente"}
-      </p>
+        return (
+          <motion.div
+            key={index}
+            className="actividad"
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.2 }}
+          >
+            <h3>{campos.Actividad}</h3>
 
-      <button onClick={() => setCompletada(!completada)}>
-        Cambiar estado
-      </button>
-    </div>
+            <p>
+              Estado:
+              {campos.Estado === "Completada"
+                ? " ✅ Completada"
+                : " ⏳ Pendiente"}
+            </p>
+          </motion.div>
+        );
+      })}
+    </>
   );
 }
 

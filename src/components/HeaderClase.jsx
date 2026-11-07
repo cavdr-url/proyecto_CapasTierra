@@ -1,6 +1,12 @@
+import { motion } from "framer-motion";
+
 function HeaderClase({ tituloTema, nombreDocente, horario }) {
   return (
-    <header className="header">
+    <motion.header
+      className="header"
+      whileHover={{ scale: 1.02 }}
+      transition={{ duration: 0.2 }}
+    >
       <h1>{tituloTema}</h1>
 
       <p>
@@ -10,7 +16,7 @@ function HeaderClase({ tituloTema, nombreDocente, horario }) {
       <p>
         <strong>Horario:</strong> {horario}
       </p>
-    </header>
+    </motion.header>
   );
 }
 
