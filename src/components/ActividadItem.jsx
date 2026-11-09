@@ -12,22 +12,30 @@ function ActividadItem() {
     "nc_pat_Ph7DlnLFYRsRn0bpN47ytXfhMmAHlX6hW3xFviU4";
 
   useEffect(() => {
-    fetch(NOCODB_URL, {
-      method: "GET",
-      headers: {
-        "xc-token": API_TOKEN,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((datos) => {
+    const cargarActividades = async () => {
+      try {
+        const res = await fetch(NOCODB_URL, {
+          method: "GET",
+          headers: {
+            "xc-token": API_TOKEN,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error(`Error al cargar actividades: ${res.status}`);
+        }
+
+        const datos = await res.json();
         setActividades(datos.records || []);
-        setCargando(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error(error);
+      } finally {
         setCargando(false);
-      });
+      }
+    };
+
+    cargarActividades();
   }, []);
 
   if (cargando) {
