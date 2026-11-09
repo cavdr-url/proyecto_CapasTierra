@@ -5,11 +5,9 @@ function ActividadItem() {
   const [actividades, setActividades] = useState([]);
   const [cargando, setCargando] = useState(true);
 
-  const NOCODB_URL =
-    "https://app.nocodb.com/api/v3/data/pqx60qbgr3kkp2j/m27d22l2k00nhz7/records";
-
-  const API_TOKEN =
-    "nc_pat_Ph7DlnLFYRsRn0bpN47ytXfhMmAHlX6hW3xFviU4";
+  // .env
+  const NOCODB_URL = import.meta.env.VITE_NOCODB_URL;
+  const API_TOKEN = import.meta.env.VITE_NOCODB_API_KEY;
 
   useEffect(() => {
     const cargarActividades = async () => {
